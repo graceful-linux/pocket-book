@@ -13,9 +13,11 @@ FORMS += \
 
 HEADERS += \
     $$PWD/widget/login.h \
-    $$PWD/widget/app.h
+    $$PWD/widget/app.h \
+    $$PWD/widget/nav.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/widget/login.cpp \
-    $$PWD/widget/app.cpp
+    $$PWD/widget/app.cpp \
+    $$PWD/widget/nav.cpp

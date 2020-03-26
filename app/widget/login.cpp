@@ -7,6 +7,8 @@ Login::Login(QWidget *parent) : QDialog(parent),  ui(new Ui::Login)
 {
     ui->setupUi(this);
 
+    ui->nameEdit->setText("name");
+    ui->passwdEdit->setText("passwd");
 
     connect(ui->loginButton, SIGNAL(clicked(bool)), this, SLOT(canLogin(bool)));
     connect(ui->cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));

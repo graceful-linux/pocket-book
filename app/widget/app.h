@@ -1,8 +1,11 @@
 #ifndef APP_H
 #define APP_H
 #include "login.h"
+#include "nav.h"
 
+#include <QHBoxLayout>
 #include <QWidget>
+#include <QLabel>
 
 class App : public QWidget
 {
@@ -10,6 +13,7 @@ class App : public QWidget
 public:
     explicit App(QWidget *parent = nullptr);
 
+    // 登录是否成功
     bool canLogin ();
 
 protected:
@@ -20,6 +24,12 @@ Q_SIGNALS:
 private:
     bool            mCanLogin;
 
+    QWidget*        mMainWidget;
+    QWidget*        mRightWidget;
+    QHBoxLayout*    mMainLayout;
+    QVBoxLayout*    mRightLayout;
+    Nav*            mNav;
+    QLabel*         mTipsLabel;
 };
 
 #endif // APP_H

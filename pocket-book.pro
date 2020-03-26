@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-CONFIG = ordered
+CONFIG = ordered \
+    qt
 
 SUBDIRS += \
     $$PWD/app/app.pro
@@ -11,3 +12,5 @@ OTHER_FILES += \
     $$PWD/README.md \
     $$PWD/.gitignore \
     $$PWD/sql/database.sql
+
+QT += widgets
