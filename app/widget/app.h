@@ -28,7 +28,10 @@ private:
     bool                mCanLogin;
 
     Nav*                mNav;
-    QLabel*             mTipsLabel;
+
+    QWidget*            mNewRecord;                 // 记账
+    QWidget*            mHistoryDetail;             // 历史明细
+    QWidget*            mReportForm;                // 报表
 
     QWidget*            mMainWidget;
     QWidget*            mRightWidget;

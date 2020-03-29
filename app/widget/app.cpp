@@ -11,7 +11,14 @@ App::App(QWidget *parent) : QWidget(parent)
     mCanLogin = false;
 
     mNav = new Nav();
-    mTipsLabel = new QLabel("Item: 0");
+
+    mNewRecord = new QLabel("记一笔");
+    mReportForm = new QLabel ("报表");
+    mHistoryDetail = new QLabel("历史明细");
+
+    mNewRecord->hide();
+    mReportForm->hide();
+    mHistoryDetail->hide();
 
     mMainWidget = new QWidget();
     mRightWidget = new QWidget();
@@ -33,7 +40,11 @@ App::App(QWidget *parent) : QWidget(parent)
     mNav->addItem("明细");
     mNav->addItem("报表");
 
-    mMainContentLayout->addWidget(mTipsLabel, 0, Qt::AlignCenter);
+    mMainContentLayout->addWidget(mNewRecord, 0, Qt::AlignCenter);
+    mMainContentLayout->addWidget(mReportForm, 0, Qt::AlignCenter);
+    mMainContentLayout->addWidget(mHistoryDetail, 0, Qt::AlignCenter);
+
+    mHistoryDetail->show();
 
     mMainLayout->setContentsMargins(0, 0, 0, 0);
     mMainLayout->addWidget(mNav);
@@ -42,7 +53,26 @@ App::App(QWidget *parent) : QWidget(parent)
     setLayout(mMainLayout);
 
     connect(mNav, &Nav::currentItemChanged, this, [=](const int& cur) {
-        mTipsLabel->setText("item: " + QString::number(cur));
+        if (0 == cur) {
+            // FIXME:// 添加展开效果
+            return ;
+        }
+        mNewRecord->hide();
+        mReportForm->hide();
+        mHistoryDetail->hide();
+
+        switch (cur) {
+        case 0:
+        case 1:
+            mNewRecord->show();
+            break;
+        case 2:
+            mHistoryDetail->show();
+            break;
+        case 3:
+            mReportForm->show();
+            break;
+        }
     });
 }
 
