@@ -5,34 +5,41 @@
 
 App::App(QWidget *parent) : QWidget(parent)
 {
+    mMinWidth = 600;
+    mMinHeight = 300;
+
     mCanLogin = false;
 
-    setFixedSize(600, 400);
-
-    mMainWidget = new QWidget;
-    mRightWidget = new QWidget;
-    mRightLayout = new QVBoxLayout(mRightWidget);
-    mMainLayout = new QHBoxLayout(mMainWidget);
     mNav = new Nav();
     mTipsLabel = new QLabel("Item: 0");
 
-    mRightWidget->setFixedWidth(600 - mNav->width());
-    mNav->setRowHeight(50);
-    mNav->addItem("常规1");
-    mNav->addItem("常规2");
-    mNav->addItem("常规3");
-    mNav->addItem("常规4");
-    mNav->addItem("常规5");
-    mNav->addItem("常规6");
+    mMainWidget = new QWidget();
+    mRightWidget = new QWidget();
 
-    mRightLayout->addWidget(mTipsLabel, 0, Qt::AlignCenter);
+    mMainLayout = new QHBoxLayout();
+
+    mMainContentLayout = new QVBoxLayout();
+
+    mNav->getMinWidth() > mMinWidth ? setMinimumWidth(mNav->getMinWidth()) : setMinimumWidth(mMinWidth);
+    mNav->getMinHeight() > mMinHeight ? setMinimumHeight(mNav->getMinHeight()) : setMinimumHeight(mMinHeight);
+
+    connect(mNav, SIGNAL(navSizeChanged(int&,int&)), this, SLOT([=](int&w, int&h){
+        w > mMinWidth ? setMinimumWidth(w) : setMinimumWidth(mMinWidth);
+        h > mMinHeight ? setMinimumHeight(h) : setMinimumHeight(mMinHeight);
+    }));
+
+    mNav->addItem("菜单");
+    mNav->addItem("记一笔");
+    mNav->addItem("明细");
+    mNav->addItem("报表");
+
+    mMainContentLayout->addWidget(mTipsLabel, 0, Qt::AlignCenter);
 
     mMainLayout->setContentsMargins(0, 0, 0, 0);
     mMainLayout->addWidget(mNav);
-    mMainLayout->addWidget(mRightWidget);
+    mMainLayout->addLayout(mMainContentLayout);
 
     setLayout(mMainLayout);
-//    setCen
 
     connect(mNav, &Nav::currentItemChanged, this, [=](const int& cur) {
         mTipsLabel->setText("item: " + QString::number(cur));

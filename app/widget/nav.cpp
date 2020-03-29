@@ -4,61 +4,82 @@
 
 Nav::Nav(QWidget *parent) : QWidget(parent)
 {
-    mBackgroundColor = "#E4E4E4";
-    mSelectedColor = "#2CA7F8";
+    mMaxWidth = 120;
+    mMinWidth = 100;
     mRowHeight = 40;
+    mMinHeight = 120;
+
     mCurrentIndex = 0;
 
-    setMouseTracking(true);
-    setFixedWidth(150);
+    mSelectedColor = "#2CA7F8";
+    mBackgroundColor = "#E4E4E4";
 
+    setMaximumWidth(mMaxWidth);
+
+    setMinimumWidth(mMinWidth);
+    setMinimumHeight(mMinHeight);
+
+    setMouseTracking(true);
     mListItem = new QList<QString>();
 }
 
 void Nav::addItem(const QString& title)
 {
     mListItem->push_back(title);
-    update();
-}
+    mMinHeight = mListItem->size() * mRowHeight;
 
-void Nav::setWidth(const int& width)
-{
-    setFixedWidth(width);
+    setMinimumHeight(mMinHeight);
+    Q_EMIT navSizeChanged(width(), height());
+
+    update();
 }
 
 void Nav::setBackgroundColor(const QString &color)
 {
+    mBackgroundColor = color;
+}
 
+int &Nav::getMinWidth()
+{
+    return mMinWidth;
+}
+
+int &Nav::getMinHeight()
+{
+    return mMinHeight;
 }
 
 void Nav::setSelectColor(const QString &color)
 {
-
+    mSelectedColor = color;
 }
 
 void Nav::setRowHeight(const int &height)
 {
-
+    if (height > 0) {
+        mRowHeight = height;
+    }
 }
 
-void Nav::paintEvent(QPaintEvent* event)
+void Nav::paintEvent(QPaintEvent*)
 {
+    int count = 0;
     QPainter painter(this);
+
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor(mBackgroundColor));
-    painter.drawRect(rect());
+    painter.drawRect(0, 0, width(), height());
 
-    int count = 0;
     for (const QString& str : *mListItem) {
         QPainterPath itemPath;
         itemPath.addRect(QRect(0, count * mRowHeight, width(), mRowHeight));
         if (count == mCurrentIndex) {
-            painter.setPen("#FFFFFF");
-            painter.fillPath(itemPath, QColor(mSelectedColor));
+            painter.setPen("#FFFFFF");                                              // 字体颜色
+            painter.fillPath(itemPath, QColor(mSelectedColor));                     // 背景色
         } else {
-            painter.setPen("#202020");
+            painter.setPen("#202020");                                              // 未选中前景色
             painter.fillPath(itemPath, QColor(mBackgroundColor));
         }
         painter.drawText(QRect(0, count * mRowHeight, width(), mRowHeight), Qt::AlignVCenter | Qt::AlignHCenter, str);
@@ -66,12 +87,15 @@ void Nav::paintEvent(QPaintEvent* event)
     }
 }
 
-void Nav::mouseMoveEvent(QMouseEvent *event)
+void Nav::resizeEvent(QResizeEvent*)
+{
+    Q_EMIT navSizeChanged(width(), height());
+}
+
+void Nav::mouseMoveEvent(QMouseEvent* event)
 {
     if (event->y() / mRowHeight < mListItem->count()) {
         mCurrentIndex = event->y() / mRowHeight;
-
-        //Q_EMIT currentItemChanged(mCurrentIndex);
         update();
     }
 }
@@ -80,7 +104,6 @@ void Nav::mousePressEvent(QMouseEvent *event)
 {
     if (event->y() / mRowHeight < mListItem->count()) {
         mCurrentIndex = event->y() / mRowHeight;
-
         Q_EMIT currentItemChanged(mCurrentIndex);
         update();
     }
@@ -88,5 +111,5 @@ void Nav::mousePressEvent(QMouseEvent *event)
 
 void Nav::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 }

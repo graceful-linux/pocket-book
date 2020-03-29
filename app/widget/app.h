@@ -22,14 +22,19 @@ protected:
 Q_SIGNALS:
 
 private:
-    bool            mCanLogin;
+    int                 mMinWidth;
+    int                 mMinHeight;
 
-    QWidget*        mMainWidget;
-    QWidget*        mRightWidget;
-    QHBoxLayout*    mMainLayout;
-    QVBoxLayout*    mRightLayout;
-    Nav*            mNav;
-    QLabel*         mTipsLabel;
+    bool                mCanLogin;
+
+    Nav*                mNav;
+    QLabel*             mTipsLabel;
+
+    QWidget*            mMainWidget;
+    QWidget*            mRightWidget;
+
+    QHBoxLayout*        mMainLayout;                // 整体布局
+    QVBoxLayout*        mMainContentLayout;         // 主要内容布局
 };
 
 #endif // APP_H
