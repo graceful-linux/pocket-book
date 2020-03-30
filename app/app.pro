@@ -12,12 +12,14 @@ FORMS += \
     $$PWD/widget/login.ui
 
 HEADERS += \
-    $$PWD/widget/login.h \
     $$PWD/widget/app.h \
-    $$PWD/widget/nav.h
+    $$PWD/widget/nav.h \
+    $$PWD/widget/login.h \
+    $$PWD/widget/newrecord.h
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/widget/login.cpp \
     $$PWD/widget/app.cpp \
-    $$PWD/widget/nav.cpp
+    $$PWD/widget/nav.cpp \
+    $$PWD/widget/login.cpp \
+    $$PWD/widget/newrecord.cpp

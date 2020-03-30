@@ -1,4 +1,5 @@
 #include "app.h"
+#include "newrecord.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -10,9 +11,11 @@ App::App(QWidget *parent) : QWidget(parent)
 
     mCanLogin = false;
 
+    setWindowTitle("记账本");
+
     mNav = new Nav();
 
-    mNewRecord = new QLabel("记一笔");
+    mNewRecord = new NewRecord();
     mReportForm = new QLabel ("报表");
     mHistoryDetail = new QLabel("历史明细");
 
@@ -40,7 +43,7 @@ App::App(QWidget *parent) : QWidget(parent)
     mNav->addItem("明细");
     mNav->addItem("报表");
 
-    mMainContentLayout->addWidget(mNewRecord, 0, Qt::AlignCenter);
+    mMainContentLayout->addWidget(mNewRecord, 0, Qt::AlignTop | Qt::AlignLeft);
     mMainContentLayout->addWidget(mReportForm, 0, Qt::AlignCenter);
     mMainContentLayout->addWidget(mHistoryDetail, 0, Qt::AlignCenter);
 
